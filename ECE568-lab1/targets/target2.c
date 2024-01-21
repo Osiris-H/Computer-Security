@@ -5,14 +5,20 @@
 int
 foo ( char *arg )
 {
-	char	buf[256];
+	char buf[256];
 	int	i, len;
 
 	len = strlen(arg);
 	if (len > 272) len = 272;
   
-	for (i = 0; i <= len; i++)
-		buf[i] = arg[i];
+	for (i = 0; i <= len; i++) {
+        if (i >= 263) {
+            printf("len: %d\n", len);
+            printf("i: %d\n", i);
+        }
+        buf[i] = arg[i];
+    }
+
 
 	return (0);
 }
