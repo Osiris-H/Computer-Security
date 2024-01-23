@@ -12,13 +12,11 @@ foo ( char *arg )
 	if (len > 272) len = 272;
   
 	for (i = 0; i <= len; i++) {
-        if (i >= 263) {
-            printf("len: %d\n", len);
-            printf("i: %d\n", i);
-        }
-        buf[i] = arg[i];
-    }
-
+		if (i > 272) {
+			printf("%d", len);
+		}
+		buf[i] = arg[i];
+	}
 
 	return (0);
 }
