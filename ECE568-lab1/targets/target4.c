@@ -17,35 +17,22 @@ foo ( char *arg )
 	a = arg;
 	b = buf;
 
-    for (i = 0; i < len; i += 4) {
-        printf("Value at %p is: %x\n", &arg[i], *(*int) &arg[i]);
+    for (i = 0; i < 189; i += 4) {
+        printf("Value at %p with index %d is: %x\n", (void *)&buf[i], i, *(int *)&arg[i]);
     }
 
 	printf("len: %d\n", len);
 
 	for (i = 0; i <= len; i++) {
-        if (i >= 167) {
-            printf("i before copy: %d\n", i);
-            printf("value at arg %d: %x\n", i, arg[i]);
-            printf("value at a: %x\n", *a);
-            printf("value at b: %x\n", *b);
+		if (i >= 159) {
+            printf("b points to: %p, overwrite value is: %x\n", (void *)b, *a);
         }
-		*b++ = *a++;
-        if (i == 167) {
-            printf("Address of i: %p\n", (void *)&i);
-            printf("Value at address 0x3021fe97: %x\n", *(unsigned char *)0x3021fe97);
-            printf("Value at address 0x3021fe98: %x\n", *(unsigned char *)0x3021fe98);
-            printf("Value at address 0x3021fe99: %x\n", *(unsigned char *)0x3021fe99);
-        }
+        *b++ = *a++;
         if (i >= 168) {
-            printf("i after copy: %d\n", i);
-//            printf("value at buf %d: %x\n", i, buf[i]);
-            printf("Value at address 0x3021fe98: %x\n", *(unsigned char *)0x3021fe98);
-            printf("Value at address 0x3021fe99: %x\n", *(unsigned char *)0x3021fe99);
+            printf("%d\n", i);
         }
 	}
-		
-	
+
 	return (0);
 }
 
