@@ -20,9 +20,9 @@ foo ( char *arg )
 	memcpy(formatString, arg, 256);
 	snprintf(buf, sizeof(buf), &formatString[60]);
 
-    for (i = 0; i < 48; i += 4) {
-        printf("Value at buf index %d is %x\n", i, *(int *)&buf[i]);
-    }
+//    for (i = 0; i < 48; i += 4) {
+//        printf("Value at buf index %d is %x\n", i, *(int *)&buf[i]);
+//    }
 
 	return (0);
 }
