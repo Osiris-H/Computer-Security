@@ -1,0 +1,28 @@
+#Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
+#Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
+
+
+------------------------------------------------------------------------
+sploit1:
+The task for this target is to overflow the return address of foo. This return address can be discovered by using gdb with appropriate cmd.
+To overwrite from the start of the buffer to the RA, we inject a buffer with size 125. We write NOP into the buf, then rewrite it to include
+the shellcode at the beginning. Lastly we rewrite the last 4 bytes to be the new return address which is the addr of the buf to overwrite.
+
+------------------------------------------------------------------------
+sploit2:
+the task is still to overflow the RA of foo, however since there is a size limit to the amount of char's we can overwrite, we have to look for other ways.
+From gdb cmd, we noticed that the addr of int i and len are within the range of allowable overwriting buffer size, which means in this sploits we can 
+change the limiting size to reach to the RA and eventually overwrite it. To achieve, we used environmental variables after changing the integers i and len.
+
+------------------------------------------------------------------------
+sploit3:
+
+------------------------------------------------------------------------
+sploit4:
+
+------------------------------------------------------------------------
+sploit5:
+this is a format string vulnerability. Using gdb we found out that there are 40 bytes from the first print to the formatString which will be copied into buf. 
+With knowing this, we can construct a format string such that it will consume the first 40 bytes with %nnx along with the following 8 bytes with %hhn which includes
+the desired overwriting addr for the LSB (which can be padded to desired length). the way we construct the formatString made us to consider the length of the shellcode as well. 
+We fill up the first 60 bytes with desired RA's to be overwritten, carefully place them with seperation considering the %hhn and %nnx.
