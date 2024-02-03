@@ -13,12 +13,16 @@ foo ( char *arg )
 	// the format string into a local buffer, and then skip the first 60 characters
 	// of it when feeding it into snprintf(...)
 
-    for (i = 0; i < 256; i += 4) {
-        printf("Value at %p with index %d is: %x\n", (void *)&formatString[i], i, *(int *)&arg[i]);
-    }
+//    for (i = 0; i < 256; i += 4) {
+//        printf("Value at %p with index %d is: %x\n", (void *)&formatString[i], i, *(int *)&arg[i]);
+//    }
 
 	memcpy(formatString, arg, 256);
 	snprintf(buf, sizeof(buf), &formatString[60]);
+
+    for (i = 0; i < 48; i += 4) {
+        printf("Value at buf index %d is %x\n", i, *(int *)&buf[i])
+    }
 
 	return (0);
 }
