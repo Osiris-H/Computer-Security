@@ -1,5 +1,5 @@
-#Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
-#Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
+# Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
+# Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
 
 
 ------------------------------------------------------------------------
@@ -19,14 +19,22 @@ sploit3:
 The task involves a buffer overflow to overwrite bar's return address. Due to "AAAA" at targ's start, and the pointer
 skipping this, we must precisely place our shellcode's address. This ensures that when targ targets bar's RA, arg
 aligns with our shellcode.
+
 ------------------------------------------------------------------------
 sploit4:
 The task involves a buffer overflow to overwrite foo's return address. Inside the for loop, as pointer b and a are
 continuously incrementing, and the address of i and len are ahead of the RA of foo, all we need to do is decrease the
 value of i and reset len so that pointer b can reach the RA of foo and overwrite it with the address of shellcode
+
 ------------------------------------------------------------------------
 sploit5:
 this is a format string vulnerability. Using gdb we found out that there are 40 bytes from the first print to the formatString which will be copied into buf. 
 With knowing this, we can construct a format string such that it will consume the first 40 bytes with %nnx along with the following 8 bytes with %hhn which includes
-the desired overwriting addr for the LSB (which can be padded to desired length). the way we construct the formatString made us to consider the length of the shellcode as well. 
+the desired overwriting addr for the LSB (which can be padded to desired length)
 We fill up the first 60 bytes with desired RA's to be overwritten, carefully place them with seperation considering the %hhn and %nnx.
+
+------------------------------------------------------------------------
+sploit6:
+there are two possible vulnerabilities: foo and tfree's return addr. We chose to attack the foo's return addr through the double free of a pointer.
+based on the given code of tfree(), by triggering a right consolidation event for the memory manager, we managed to link and change the return addr of foo.
+rigth consolidation left several bytes unchanged from the attack string, with these, we are able to construct code that jumps to the shellcode and execute

