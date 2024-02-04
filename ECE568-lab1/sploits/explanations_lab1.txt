@@ -16,10 +16,14 @@ change the limiting size to reach to the RA and eventually overwrite it. To achi
 
 ------------------------------------------------------------------------
 sploit3:
-
+The task involves a buffer overflow to overwrite bar's return address. Due to "AAAA" at targ's start, and the pointer
+skipping this, we must precisely place our shellcode's address. This ensures that when targ targets bar's RA, arg
+aligns with our shellcode.
 ------------------------------------------------------------------------
 sploit4:
-
+The task involves a buffer overflow to overwrite foo's return address. Inside the for loop, as pointer b and a are
+continuously incrementing, and the address of i and len are ahead of the RA of foo, all we need to do is decrease the
+value of i and reset len so that pointer b can reach the RA of foo and overwrite it with the address of shellcode
 ------------------------------------------------------------------------
 sploit5:
 this is a format string vulnerability. Using gdb we found out that there are 40 bytes from the first print to the formatString which will be copied into buf. 

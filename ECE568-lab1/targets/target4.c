@@ -16,23 +16,10 @@ foo ( char *arg )
 
 	a = arg;
 	b = buf;
-
-    for (i = 0; i < 189; i += 4) {
-        printf("Value at %p with index %d is: %x\n", (void *)&buf[i], i, *(int *)&arg[i]);
-    }
-
-	printf("len: %d\n", len);
-
-	for (i = 0; i <= len; i++) {
-		if (i >= 159) {
-            printf("b points to: %p, overwrite value is: %x\n", (void *)b, *a);
-        }
-        *b++ = *a++;
-        if (i >= 168) {
-            printf("%d\n", i);
-        }
-	}
-
+	
+	for (i = 0; i <= len; i++)
+		*b++ = *a++;
+	
 	return (0);
 }
 
