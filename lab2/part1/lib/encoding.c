@@ -27,107 +27,106 @@
 
 int base32_decode(const uint8_t *encoded, uint8_t *result, int bufSize) {
 
-  int buffer = 0;
-  int bitsLeft = 0;
-  int count = 0;
+    int buffer = 0;
+    int bitsLeft = 0;
+    int count = 0;
 
-  for (const uint8_t *ptr = encoded; count < bufSize && *ptr; ++ptr) {
+    for (const uint8_t *ptr = encoded; count < bufSize && *ptr; ++ptr) {
 
-    uint8_t ch = *ptr;
+        uint8_t ch = *ptr;
 
-    if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '-') {
-      continue;
-    }
-    buffer <<= 5;
-
-    // Deal with commonly mistyped characters
-    if (ch == '0') {
-      ch = 'O';
-    } else if (ch == '1') {
-      ch = 'L';
-    } else if (ch == '8') {
-      ch = 'B';
-    }
-
-    // Look up one base32 digit
-    if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
-      ch = (ch & 0x1F) - 1;
-    } else if (ch >= '2' && ch <= '7') {
-      ch -= '2' - 26;
-    } else {
-      return -1;
-    }
-
-    buffer |= ch;
-    bitsLeft += 5;
-    if (bitsLeft >= 8) {
-      result[count++] = buffer >> (bitsLeft - 8);
-      bitsLeft -= 8;
-    }
-  }
-  if (count < bufSize) {
-    result[count] = '\000';
-  }
-  return count;
-}
-
-int base32_encode(const uint8_t *data, int length, uint8_t *result,
-                  int bufSize) {
-  if (length < 0 || length > (1 << 28)) {
-    return -1;
-  }
-  int count = 0;
-  if (length > 0) {
-    int buffer = data[0];
-    int next = 1;
-    int bitsLeft = 8;
-    while (count < bufSize && (bitsLeft > 0 || next < length)) {
-      if (bitsLeft < 5) {
-        if (next < length) {
-          buffer <<= 8;
-          buffer |= data[next++] & 0xFF;
-          bitsLeft += 8;
-        } else {
-          int pad = 5 - bitsLeft;
-          buffer <<= pad;
-          bitsLeft += pad;
+        if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '-') {
+            continue;
         }
-      }
-      int index = 0x1F & (buffer >> (bitsLeft - 5));
-      bitsLeft -= 5;
-      result[count++] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[index];
+        buffer <<= 5;
+
+        // Deal with commonly mistyped characters
+        if (ch == '0') {
+            ch = 'O';
+        } else if (ch == '1') {
+            ch = 'L';
+        } else if (ch == '8') {
+            ch = 'B';
+        }
+
+        // Look up one base32 digit
+        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
+            ch = (ch & 0x1F) - 1;
+        } else if (ch >= '2' && ch <= '7') {
+            ch -= '2' - 26;
+        } else {
+            return -1;
+        }
+
+        buffer |= ch;
+        bitsLeft += 5;
+        if (bitsLeft >= 8) {
+            result[count++] = buffer >> (bitsLeft - 8);
+            bitsLeft -= 8;
+        }
     }
-  }
-  if (count < bufSize) {
-    result[count] = '\000';
-  }
-  return count;
+    if (count < bufSize) {
+        result[count] = '\000';
+    }
+    return count;
 }
 
-const char * urlEncode (const char * s) {
-
-  char *ret = malloc(3*strlen(s) + 1);
-  char *d = ret;
-  do {
-    switch (*s) {
-    case '%':
-    case '&':
-    case '?':
-    case '=':
-    encode:
-      sprintf(d, "%%%02X", (unsigned char)*s);
-      d += 3;
-      break;
-    default:
-      if ((*s && *s <= ' ') || *s >= '\x7F') {
-        goto encode;
-      }
-      *d++ = *s;
-      break;
+int base32_encode(const uint8_t *data, int length, uint8_t *result, int bufSize) {
+    if (length < 0 || length > (1 << 28)) {
+        return -1;
     }
-  } while (*s++);
-  ret = realloc(ret, strlen(ret) + 1);
-  return ret;
+    int count = 0;
+    if (length > 0) {
+        int buffer = data[0];
+        int next = 1;
+        int bitsLeft = 8;
+        while (count < bufSize && (bitsLeft > 0 || next < length)) {
+            if (bitsLeft < 5) {
+                if (next < length) {
+                    buffer <<= 8;
+                    buffer |= data[next++] & 0xFF;
+                    bitsLeft += 8;
+                } else {
+                    int pad = 5 - bitsLeft;
+                    buffer <<= pad;
+                    bitsLeft += pad;
+                }
+            }
+            int index = 0x1F & (buffer >> (bitsLeft - 5));
+            bitsLeft -= 5;
+            result[count++] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"[index];
+        }
+    }
+    if (count < bufSize) {
+        result[count] = '\000';
+    }
+    return count;
+}
+
+const char *urlEncode(const char *s) {
+
+    char *ret = malloc(3 * strlen(s) + 1);
+    char *d = ret;
+    do {
+        switch (*s) {
+            case '%':
+            case '&':
+            case '?':
+            case '=':
+            encode:
+                sprintf(d, "%%%02X", (unsigned char) *s);
+                d += 3;
+                break;
+            default:
+                if ((*s && *s <= ' ') || *s >= '\x7F') {
+                    goto encode;
+                }
+                *d++ = *s;
+                break;
+        }
+    } while (*s++);
+    ret = realloc(ret, strlen(ret) + 1);
+    return ret;
 }
 
 #define ANSI_RESET        "\x1B[0m"
@@ -139,51 +138,50 @@ const char * urlEncode (const char * s) {
 #define UTF8_BOTTOMHALF   "\xE2\x96\x84"
 
 void
-displayQRcode(const char * URI)
-{
-	if ( URI == NULL ) return;
-	printf("%s\n\n", URI);
+displayQRcode(const char *URI) {
+    if (URI == NULL) return;
+    printf("%s\n\n", URI);
 
-        QRcode * qrcode = QRcode_encodeString8bit(URI, 0, 1);
-        char * ptr = (char *)qrcode->data;
+    QRcode *qrcode = QRcode_encodeString8bit(URI, 0, 1);
+    char *ptr = (char *) qrcode->data;
 
-        // Output QRCode using ANSI colors. Instead of black on white, we
-        // output black on grey, as that works independently of whether the
-        // user runs their terminal in a black on white or white on black color
-        // scheme.  This requires that we print a border around the entire QR Code.
-        // Otherwise, readers won't be able to recognize it.
+    // Output QRCode using ANSI colors. Instead of black on white, we
+    // output black on grey, as that works independently of whether the
+    // user runs their terminal in a black on white or white on black color
+    // scheme.  This requires that we print a border around the entire QR Code.
+    // Otherwise, readers won't be able to recognize it.
 
-        for (int i = 0; i < 2; ++i) {
-                printf(ANSI_BLACKONGREY);
-                for (int x = 0; x < qrcode->width + 4; ++x) printf("  ");
-                puts(ANSI_RESET);
-        }
+    for (int i = 0; i < 2; ++i) {
+        printf(ANSI_BLACKONGREY);
+        for (int x = 0; x < qrcode->width + 4; ++x) printf("  ");
+        puts(ANSI_RESET);
+    }
 
-        for (int y = 0; y < qrcode->width; ++y) {
-                printf(ANSI_BLACKONGREY"    ");
-                int isBlack = 0;
-                for (int x = 0; x < qrcode->width; ++x) {
-                        if (*ptr++ & 1) {
-                                if (!isBlack) printf(ANSI_BLACK);
-                                isBlack = 1;
-                        } else {
-                                if (isBlack) printf(ANSI_WHITE);
-                                isBlack = 0;
-                        }
-                        printf("  ");
-                }
-
+    for (int y = 0; y < qrcode->width; ++y) {
+        printf(ANSI_BLACKONGREY"    ");
+        int isBlack = 0;
+        for (int x = 0; x < qrcode->width; ++x) {
+            if (*ptr++ & 1) {
+                if (!isBlack) printf(ANSI_BLACK);
+                isBlack = 1;
+            } else {
                 if (isBlack) printf(ANSI_WHITE);
-                puts("    "ANSI_RESET);
+                isBlack = 0;
+            }
+            printf("  ");
         }
 
-        for (int i = 0; i < 2; ++i) {
-                printf(ANSI_BLACKONGREY);
-                for (int x = 0; x < qrcode->width + 4; ++x) printf("  ");
-                puts(ANSI_RESET);
-        }
+        if (isBlack) printf(ANSI_WHITE);
+        puts("    "ANSI_RESET);
+    }
 
-	printf("\n");
-        QRcode_free(qrcode);
+    for (int i = 0; i < 2; ++i) {
+        printf(ANSI_BLACKONGREY);
+        for (int x = 0; x < qrcode->width + 4; ++x) printf("  ");
+        puts(ANSI_RESET);
+    }
+
+    printf("\n");
+    QRcode_free(qrcode);
 }
 
