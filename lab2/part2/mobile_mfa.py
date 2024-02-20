@@ -14,299 +14,290 @@ import requests
 import qrcode_terminal
 
 exec(compile(source=open('../setup/server_config.py').read(),
-	filename='server_config.py', mode='exec'))
+             filename='server_config.py', mode='exec'))
 
 
 class BioConnect:
+    bcaccesskey = ''
+    bcentitykey = ''
+    bctoken = ''
+    userId = ''
+    authenticatorId = ''
+    stepupId = ''
+
+    # ===== login: Authenticates and obtains access credentials
+
+    def login(self):
+
+        global hostname
+        global username
+        global password
+
+        url = 'https://%s/v2/console/login' % hostname
+
+        headers = {
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
+        }
+
+        data = {
+            'username': username,
+            'password': password
+        }
+
+        # Send our POST request to the server
+        result = requests.post(url, data=json.dumps(data), headers=headers)
+
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            print(headers)
+            print(result.content)
+            sys.exit("Error: unable to authenticate")
+
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
+
+            # Extract the authentication tokens
+            self.bcaccesskey = reply.get("bcaccesskey", "")
+            self.bcentitykey = reply.get("bcentitykey", "")
+            self.bctoken = reply.get("bctoken", "")
+
+        except ValueError:
+            self.bctoken = ""
+
+    # ===== createUser: Creates a new Multi-Factor Authenticator user
+
+    def createUser(self,
+                   externalId="%f" % time.time(),
+                   firstName='UofT',
+                   lastName='Student',
+                   shortName='UofTstudent',
+                   email='lab2@ece568.ca',
+                   phoneNumber='4165555555',
+                   mailingAddress='NA',
+                   title='NA'):
+
+        global hostname
+
+        url = 'https://%s/v2/users/create' % hostname
+
+        headers = {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
+
+        data = {
+            'external_id': externalId,
+            'first_name': firstName,
+            'last_name': lastName,
+            'short_name': shortName,
+            'email': email,
+            'phoneNumber': phoneNumber,
+            'mailingAddress': mailingAddress,
+            'title': title
+        }
+
+        # Send our POST request to the server
+        result = requests.post(url, data=json.dumps(data), headers=headers)
+
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            print(headers)
+            print(json.dumps(data))
+            print(result.content)
+            sys.exit("Error: unable to create user")
+
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
+
+            # Extract the userId
+            self.userId = reply.get("uuid", "")
+
+        except ValueError:
+            self.userId = ""
 
-	bcaccesskey		= ''
-	bcentitykey		= ''
-	bctoken			= ''
-	userId			= ''
-	authenticatorId		= ''
-	stepupId		= ''
-
-	# ===== login: Authenticates and obtains access credentials
-
-	def login(self):
-
-		global	hostname
-		global	username
-		global	password
+    # ===== createAuthenticator: Creates a new mobile phone for the user
 
-		url = 'https://%s/v2/console/login' % hostname
-
-		headers = {
-			'Content-Type':		'application/json',
-			'accept':		'application/json'
-		}
-
-		data = {
-			'username':		username,
-			'password':		password
-		}
-
-		# Send our POST request to the server
-		result = requests.post(url, data=json.dumps(data), headers=headers)
-
-		if result == False:
-			# Error: we did not receive an HTTP/200
-			print(headers)
-			print(result.content)
-			sys.exit("Error: unable to authenticate")
-
-		try:
-			# Parse the JSON reply
-			reply = json.loads(result.content.decode('utf-8'))
-
-			# Extract the authentication tokens
-			self.bcaccesskey = reply.get("bcaccesskey","")
-			self.bcentitykey = reply.get("bcentitykey","")
-			self.bctoken = reply.get("bctoken","")
-
-		except ValueError:
-			self.bctoken = ""
-
-
-	# ===== createUser: Creates a new Multi-Factor Authenticator user
-
-	def createUser(self,
-		externalId="%f" % time.time(),
-		firstName = 'UofT',
-		lastName = 'Student',
-		shortName = 'UofTstudent',
-		email = 'lab2@ece568.ca',
-		phoneNumber = '4165555555',
-		mailingAddress = 'NA',
-		title = 'NA'):
+    def createAuthenticator(self,
+                            name='mobile',
+                            description='Mobile',
+                            authenticatorType='mobile'):
 
-		global	hostname
+        global hostname
 
-		url = 'https://%s/v2/users/create' % hostname
+        url = 'https://%s/v2/users/%s/authenticators/create' % \
+              (hostname, self.userId)
 
-		headers = {
-			'Content-Type':		'application/json',
-			'accept':		'application/json',
-			'bcaccesskey':		self.bcaccesskey,
-			'bcentitykey':		self.bcentitykey,
-			'bctoken':		self.bctoken
-		}
-
-		data = {
-			'external_id':		externalId,
-			'first_name':		firstName,
-			'last_name':		lastName,
-			'short_name':		shortName,
-			'email':		email,
-			'phoneNumber':		phoneNumber,
-			'mailingAddress':	mailingAddress,
-			'title':		title
-		}
+        headers = {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
 
-		# Send our POST request to the server
-		result = requests.post(url, data=json.dumps(data), headers=headers)
-
-		if result == False:
-			# Error: we did not receive an HTTP/200
-			print(headers)
-			print(json.dumps(data))
-			print(result.content)
-			sys.exit("Error: unable to create user")
-
-		try:
-			# Parse the JSON reply
-			reply = json.loads(result.content.decode('utf-8'))
-
-			# Extract the userId
-			self.userId = reply.get("uuid","")
+        data = {
+            'name': name,
+            'description': description,
+            'authenticator_type': authenticatorType
+        }
 
-		except ValueError:
-			self.userId = ""
+        # Send our POST request to the server
+        result = requests.post(url, data=json.dumps(data), headers=headers)
 
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            print(headers)
+            print(json.dumps(data))
+            print(result.content)
+            sys.exit("Error: unable to create authenticator")
 
-	# ===== createAuthenticator: Creates a new mobile phone for the user
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
 
-	def createAuthenticator(self,
-		name = 'mobile',
-		description = 'Mobile',
-		authenticatorType = 'mobile'):
+            # Extract the authenticatorId
+            self.authenticatorId = reply.get("uuid", "")
 
-		global	hostname
+        except ValueError:
+            self.authenticatorId = ""
 
-		url = 'https://%s/v2/users/%s/authenticators/create' % \
-			( hostname, self.userId )
+    # ===== getAuthenticatorQRcode: Get and display the app QR code
 
-		headers = {
-			'Content-Type':		'application/json',
-			'accept':		'application/json',
-			'bcaccesskey':		self.bcaccesskey,
-			'bcentitykey':		self.bcentitykey,
-			'bctoken':		self.bctoken
-		}
+    def getQRcode(self):
 
-		data = {
-			'name':			name,
-			'description':		description,
-			'authenticator_type':	authenticatorType
-		}
+        global hostname
 
-		# Send our POST request to the server
-		result = requests.post(url, data=json.dumps(data), headers=headers)
+        url = 'https://%s/v2/users/%s' \
+              '/authenticators/%s/activation_string/v2.txt' % \
+              (hostname, self.userId, self.authenticatorId)
 
-		if result == False:
-			# Error: we did not receive an HTTP/200
-			print(headers)
-			print(json.dumps(data))
-			print(result.content)
-			sys.exit("Error: unable to create authenticator")
+        headers = {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
 
-		try:
-			# Parse the JSON reply
-			reply = json.loads(result.content.decode('utf-8'))
+        # Send our GET request to the server
+        result = requests.get(url, headers=headers)
 
-			# Extract the authenticatorId
-			self.authenticatorId = reply.get("uuid","")
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            print(headers)
+            print(result.content)
+            sys.exit("Error: unable to get QR code")
 
-		except ValueError:
-			self.authenticatorId = ""
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
 
+        except ValueError:
+            print(headers)
+            print(result.content)
+            sys.exit("Error: unexpected reply for QR code")
 
-	# ===== getAuthenticatorQRcode: Get and display the app QR code
+        # Extract the activation URL for this mobile phone
+        activationString = reply.get("activation_string", "")
 
-	def getQRcode(self):
+        # Display the QR code on the terminal
+        qrcode_terminal.draw(activationString)
+        print("%s\n" % activationString)
 
-		global	hostname
+    # ===== getAuthenticatorStatus: Mobile phone registration status
 
-		url = 'https://%s/v2/users/%s' \
-			'/authenticators/%s/activation_string/v2.txt' % \
-			( hostname, self.userId, self.authenticatorId )
+    def getAuthenticatorStatus(self):
 
-		headers = {
-			'Content-Type':		'application/json',
-			'accept':		'application/json',
-			'bcaccesskey':		self.bcaccesskey,
-			'bcentitykey':		self.bcentitykey,
-			'bctoken':		self.bctoken
-		}
+        # >>> Add code here to call
+        #    .../v2/users/<userId>/authenicators/<authenticatorId>
+        # and process the response
 
-		# Send our GET request to the server
-		result = requests.get(url, headers=headers)
+        return ('')
 
-		if result == False:
-			# Error: we did not receive an HTTP/200
-			print(headers)
-			print(result.content)
-			sys.exit("Error: unable to get QR code")
+    # ===== sendStepup: Pushes an authentication request to the mobile app
 
-		try:
-			# Parse the JSON reply
-			reply = json.loads(result.content.decode('utf-8'))
+    def sendStepup(self,
+                   transactionId='%d' % int(time.time()),
+                   message='Login request'):
 
-		except ValueError:
-			print(headers)
-			print(result.content)
-			sys.exit("Error: unexpected reply for QR code")
-	
-		# Extract the activation URL for this mobile phone
-		activationString = reply.get("activation_string","")
+        # >>> Add code here to call
+        #     .../v2/user_verifications
+        # to push an authentication request to the mobile device
 
-		# Display the QR code on the terminal
-		qrcode_terminal.draw(activationString)
-		print("%s\n" % activationString)
+        pass
 
+    # ===== getStepupStatus: Fetches the status of the user auth request
 
-	# ===== getAuthenticatorStatus: Mobile phone registration status
+    def getStepupStatus(self):
 
-	def getAuthenticatorStatus(self):
+        # >>> Add code here to call
+        #     .../v2/user_verifications/<verificationId>
+        # to poll for the current status of the verification
 
-		# >>> Add code here to call
-		#    .../v2/users/<userId>/authenicators/<authenticatorId>
-		# and process the response
+        return ('declined')
 
-		return('')
+    # ===== deleteUser: Deletes the user and mobile phone entries
 
+    def deleteUser(self):
 
-	# ===== sendStepup: Pushes an authentication request to the mobile app
+        # Deletes the user and authenticator records, for privacy
 
-	def sendStepup(self,
-		transactionId = '%d' % int(time.time()),
-		message='Login request'):
+        global hostname
 
-		# >>> Add code here to call
-		#     .../v2/user_verifications
-		# to push an authentication request to the mobile device
+        url = 'https://%s/v2/users/%s/delete' % (hostname, self.userId)
 
-		pass
+        headers = {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
 
-	# ===== getStepupStatus: Fetches the status of the user auth request
+        # Send our POST request to the server
+        result = requests.post(url, headers=headers)
 
-	def getStepupStatus(self):
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            print(result.content)
+            sys.exit("Error: unable to delete user %s" % self.userId)
 
-		# >>> Add code here to call
-		#     .../v2/user_verifications/<verificationId>
-		# to poll for the current status of the verification
+        self.userId = ''
 
-		return('declined')
+    # ===== logout: Invalidates the access token, for security
 
+    def logout(self):
 
-	# ===== deleteUser: Deletes the user and mobile phone entries
+        global hostname
 
-	def deleteUser(self):
+        url = 'https://%s/v2/console/logout' % hostname
 
-		# Deletes the user and authenticator records, for privacy
+        headers = {
+            'accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitlykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
 
-		global	hostname
+        # Send our POST request to the server
+        requests.post(url, headers=headers)
+        self.bctoken = ''
 
-		url = 'https://%s/v2/users/%s/delete' % (hostname, self.userId)
+    # ===== Destructor: Attempts to perform cleanup before exiting
 
-		headers = {
-			'Content-Type':		'application/json',
-			'accept':		'application/json',
-			'bcaccesskey':		self.bcaccesskey,
-			'bcentitykey':		self.bcentitykey,
-			'bctoken':		self.bctoken
-		}
+    def __del__(self):
 
-		# Send our POST request to the server
-		result = requests.post(url, headers=headers)
+        if self.userId != '':
+            self.deleteUser()
 
-		if result == False:
-			# Error: we did not receive an HTTP/200
-			print(result.content)
-			sys.exit("Error: unable to delete user %s" % self.userId)
-
-		self.userId = ''
-
-
-	# ===== logout: Invalidates the access token, for security
-
-	def logout(self):
-
-		global	hostname
-
-		url = 'https://%s/v2/console/logout' % hostname
-
-		headers = {
-			'accept':		'application/json',
-			'bcaccesskey':		self.bcaccesskey,
-			'bcentitlykey':		self.bcentitykey,
-			'bctoken':		self.bctoken
-		}
-
-		# Send our POST request to the server
-		requests.post(url, headers=headers)
-		self.bctoken = ''
-
-
-	# ===== Destructor: Attempts to perform cleanup before exiting
-
-	def __del__(self):
-
-		if self.userId != '':
-			self.deleteUser()
-
-		if self.bctoken != '':
-			self.logout()
+        if self.bctoken != '':
+            self.logout()
 
 
 # ===== Execution starts here...
@@ -324,40 +315,39 @@ session.getQRcode()
 
 for i in range(120):
 
-	status = session.getAuthenticatorStatus()
+    status = session.getAuthenticatorStatus()
 
-	if session.getAuthenticatorStatus() == "active":
-		break
-	time.sleep(1)
+    if session.getAuthenticatorStatus() == "active":
+        break
+    time.sleep(1)
 
 if status != "active":
-	del session
-	sys.exit("Mobile device was not activated")
+    del session
+    sys.exit("Mobile device was not activated")
 
 # Simulate a "login" prompt
 
 for i in range(3):
 
-	username = input("login: ")
-	password = input("password: ")
+    username = input("login: ")
+    password = input("password: ")
 
-	if username == 'ece568' and password == 'password':
+    if username == 'ece568' and password == 'password':
 
-		session.sendStepup()
+        session.sendStepup()
 
-		status = session.getStepupStatus()
-		while status == "pending":
-			time.sleep(1)
-			status = session.getStepupStatus()
+        status = session.getStepupStatus()
+        while status == "pending":
+            time.sleep(1)
+            status = session.getStepupStatus()
 
-	else:
-		status = "invalid"
+    else:
+        status = "invalid"
 
-	if ( status == "success" ):
-		print("login successful\n")
-		break
-	else:
-		print("login failed\n")
+    if (status == "success"):
+        print("login successful\n")
+        break
+    else:
+        print("login failed\n")
 
 del session
-
