@@ -213,11 +213,51 @@ class BioConnect:
     # ===== getAuthenticatorStatus: Mobile phone registration status
 
     def getAuthenticatorStatus(self):
-
         # >>> Add code here to call
         #    .../v2/users/<userId>/authenicators/<authenticatorId>
         # and process the response
 
+        # The value of userId is set in BioConnect.createUser(), and the value of authenticatorId is set in
+        # BioConnect.createAuthenticator().
+        # according to the handout, userId and authenticatorId are all set for this API
+        global hostname
+
+        # Construct the URL for checking the authenticator's status
+        url = 'https://%s/v2/users/%s/authenticators/%s' % (hostname, self.userId, self.authenticatorId)
+
+        # similar headers from other API calls
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
+
+        # Send our GET request to the server
+        result = requests.get(url, headers=headers)
+
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            print(headers)
+            print(result.content)
+            sys.exit("Error: unable to get authenticator status")
+
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
+
+            # Check if the device is "active"
+            if reply['status'] == "active":
+                # Check if at least one of the biometric modalities is "enrolled"
+                if any(reply.get(modality) == "enrolled" for modality in ['face_status', 'voice_status', 'fingerprint_status', 'eye_status']):
+                    return "active"
+                else:
+                    return "not enrolled"
+            else:
+                return "inactive"
+        except ValueError:
+            sys.exit("Error: unexpected reply for authenticator status")
         return ('')
 
     # ===== sendStepup: Pushes an authentication request to the mobile app
@@ -225,20 +265,79 @@ class BioConnect:
     def sendStepup(self,
                    transactionId='%d' % int(time.time()),
                    message='Login request'):
-
         # >>> Add code here to call
         #     .../v2/user_verifications
         # to push an authentication request to the mobile device
+        global hostname
 
+        url = 'https://%s/v2/user_verifications' % (hostname)
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
+
+        data = {
+            'user_uuid': self.userId,
+            'transaction_id': transactionId,
+            'message': message
+        }
+
+        # Send our POST request to the server
+        result = requests.post(url, headers=headers, data=json.dumps(data))
+
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            sys.exit("Error: unable to send step-up authentication request")
+
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
+
+            # Extract and store the verificationId
+            self.stepupId = reply.get("user_verification", {}).get("uuid", "")
+        except ValueError:
+            print("Error: unexpected reply for step-up authentication request")
+            self.stepupId = ""
         pass
 
     # ===== getStepupStatus: Fetches the status of the user auth request
 
     def getStepupStatus(self):
-
         # >>> Add code here to call
         #     .../v2/user_verifications/<verificationId>
         # to poll for the current status of the verification
+        global hostname
+
+        url = 'https://%s/v2/user_verifications/%s' % (hostname, self.stepupId)
+
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'bcaccesskey': self.bcaccesskey,
+            'bcentitykey': self.bcentitykey,
+            'bctoken': self.bctoken
+        }
+
+        # Send our GET request to the server
+        result = requests.get(url, headers=headers)
+
+        if result == False:
+            # Error: we did not receive an HTTP/200
+            sys.exit("Error: unable to get step-up verification status")
+
+        try:
+            # Parse the JSON reply
+            reply = json.loads(result.content.decode('utf-8'))
+
+            # Extract and return the status of the verification request
+            status = reply.get("user_verification", {}).get("status", "")
+            return status
+        except ValueError:
+            sys.exit("Error: unexpected reply for step-up verification status")
 
         return ('declined')
 
