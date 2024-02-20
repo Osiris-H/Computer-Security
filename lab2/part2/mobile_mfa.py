@@ -298,6 +298,7 @@ class BioConnect:
             reply = json.loads(result.content.decode('utf-8'))
 
             # Extract and store the verificationId
+            # need this value for checking the verification status
             self.stepupId = reply.get("user_verification", {}).get("uuid", "")
         except ValueError:
             print("Error: unexpected reply for step-up authentication request")
@@ -334,6 +335,7 @@ class BioConnect:
             reply = json.loads(result.content.decode('utf-8'))
 
             # Extract and return the status of the verification request
+            # return the status as is for the API call to verify the status
             status = reply.get("user_verification", {}).get("status", "")
             return status
         except ValueError:
