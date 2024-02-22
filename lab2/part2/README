@@ -1,0 +1,24 @@
+# Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
+# Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
+
+Part 1:
+
+
+
+
+
+Part 2:
+getAuthenticatorStatus:
+Set the header and send a GET request to the designed URL. 
+Extract the reply in json format, which include anthentication status and whether the user has enrolled with verification methods
+Check whether the status is active and the user at least enrolled with one verification method
+
+sendStepup:
+Set the header and the data which includes user_id, transaction_id and a message and send a POST request to the designed URL
+Ectract the reply into json format
+Record the reply's uuid as this will be needed in the next step
+
+getStepupStatus:
+Set the header and send a GET repuest to the URL constructed by the previous recorded uuid
+Extract the reply into jason format
+Check the "status" part as a trigger to constantly toggle the while loop for waiting
