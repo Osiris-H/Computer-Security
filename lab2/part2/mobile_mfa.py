@@ -253,6 +253,7 @@ class BioConnect:
                 if any(reply.get(modality) == "enrolled" for modality in ['face_status', 'voice_status', 'fingerprint_status', 'eye_status']):
                     return "active"
                 else:
+                    # tho this line does do anything to the result
                     return "not enrolled"
             else:
                 return "inactive"
@@ -299,7 +300,7 @@ class BioConnect:
 
             # Extract and store the verificationId
             # need this value for checking the verification status
-            self.stepupId = reply.get("user_verification", {}).get("uuid", "")
+            self.stepupId = reply['user_verification']['uuid']
         except ValueError:
             print("Error: unexpected reply for step-up authentication request")
             self.stepupId = ""
@@ -336,7 +337,7 @@ class BioConnect:
 
             # Extract and return the status of the verification request
             # return the status as is for the API call to verify the status
-            status = reply.get("user_verification", {}).get("status", "")
+            status = reply['user_verification']['status']
             return status
         except ValueError:
             sys.exit("Error: unexpected reply for step-up verification status")
