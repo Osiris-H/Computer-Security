@@ -8,13 +8,17 @@ Part 1:
 
 
 Part 2:
+The general flow for this code is after initial setup, the application will look for the authentication status within 2 minutes of time limit. Only proceed if status is active
+Then the application will simulate a login prompt, if the username and password have been entered correctly, it will trigger the step_up request and wait for its responce. if the responce is success, login will sucess, otherwise fail
+
 getAuthenticatorStatus:
 Set the header and send a GET request to the designed URL. 
 Extract the reply in json format, which include anthentication status and whether the user has enrolled with verification methods
 Check whether the status is active and the user at least enrolled with one verification method
 
 sendStepup:
-Set the header and the data which includes user_id, transaction_id and a message and send a POST request to the designed URL
+After user status verified and corerct usrename and password verified
+Set the header and the data which includes user_id, transaction_id (time) and a message (login_request) and send a POST request to the designed URL
 Ectract the reply into json format
 Record the reply's uuid as this will be needed in the next step
 
