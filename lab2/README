@@ -2,10 +2,11 @@
 # Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
 
 Part 1:
+1.1: Generating an otpauth:// URI
+Given that the input secret is in hexadecimal format, we first convert it into numerical values. Since each hexadecimal digit occupies 4 bits and each uint8 digit requires 8 bits, we combine every two hexadecimal values (now represented in decimal form) to convert them into a single uint8 value.
 
-
-
-
+1.2: Validating the Codes
+First, we transform the input secret into 10-bit values, each represented as an unsigned 8-bit integer. Next, we apply the XOR operation to the key with both the inner padding and the outer padding to generate the inner and outer keys. We then obtain the current time to use as the message. This message, along with the inner and outer keys, is fed into the hash function in accordance with the HMAC protocol. The final OTP is computed by following the specific instructions outlined in the provided document.
 
 Part 2:
 The general flow for this code is after initial setup, the application will look for the authentication status within 2 minutes of time limit. Only proceed if status is active
