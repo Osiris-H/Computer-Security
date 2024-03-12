@@ -1,3 +1,5 @@
+# Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
+# Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
 
 Part 2
 http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=4128 3214 0002 1999&input2=000
@@ -9,3 +11,18 @@ http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=4128 3214 00
     }
     document.form.buy.setAttribute('onclick', 'part2()')
 </script>
+
+Part 6 Explanation:
+Dealing with quote input, we can use a fake message input appended with ''' to trick the query and add a comparison which always evaluate true after the fake message, 
+in this case, the query will execute and print out everything bypassing the fake message
+
+Part 7 Explanation:
+a colon is needed so that this exercise will work. The goal is to change the salary of one row starting with user_id = 101, use the update statement
+setting up a backdoor follows similar procedure than the previous part of this exercise. Following the hints, we need to change the email address
+to 'ece568_24s@utoronto.ca', so use the 'set" statement in the query. Everytime a new row is created with new user id, the email address will be updated
+
+Part 8 Explanation:
+for a protected table which only returns invalid or valid account number to everything thats passed in, we need to use logic operators to connect two parts of the query. 
+the first part of the query is 101, which is known to be valid; the second part of the query will be our examination message, which select the pin from the credit table 
+of cc_number row. While we are not able to know the direct answer of the pin, we can use the valid/invalid responce from the web and use a binary search (or any search algorithm)
+muanlly to get the result (constantly changing the guessed value, just like doing a search)
