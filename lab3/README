@@ -1,11 +1,11 @@
 # Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
 # Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
 
-Part 1
+Part 1 Explanation:
 In this part we create a fake webpage that tricks the user to enter their username and password.
 Once we obtain those info through the HTML form, we send it to the cather servlet
 
-Part 2
+Part 2 Explanation:
 We insert the executable script in the access code text box by assigning specific values through url,
 which reads the user input (card number) from input1 text box and sends it to the catcher servlet once the submit button is clicked.
 We also add extra spaces at the front of script part to hide it
@@ -19,16 +19,16 @@ http://localhost:8090/WebGoat/start.mvc#attack/297061215/900?input1=4128 3214 00
     document.form.buy.setAttribute('onclick', 'part2()')
 </script>
 
-Part 3
+Part 3 Explanation:
 We insert a malicious image in the message part of the email, whose source is the url that starts a money transfer.
 Once the receiver click on the message, the transfer will begin
 
-Part 4
+Part 4 Explanation:
 We insert two malicious iframes in the message part of the email; the first frame contains the similar source url as in part3
 that starts a transfer but also sets the url of the second frame. The source url of the second frame confirms the transfer
 starts by the first frame. Once the user click on the email, money transfer and confirmation will happen
 
-Part 5
+Part 5 Explanation:
 <iframe id="iframe" src="http://localhost:8090/WebGoat/attack?Screen=605842438&menu=900&transfer=main" width="500" height="500"></iframe>
 We first use the message content above to view the frame page returned by the server. We observe that on the returned page there is
 a webpage form which allows the user to enter the amount of money to transfer and appends a token to that value during submission.
