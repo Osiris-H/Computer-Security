@@ -1,0 +1,3 @@
+<RNDC port number>: 4852
+<query port>: 2200
+<NAMED port number>: 1372
