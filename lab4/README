@@ -1,0 +1,14 @@
+# Haoran Yin, 1005773432, haoran.yin@mail.utoronto.ca
+# Chengyi Zhou, 1006212821, chengyi.zhou@mail.utoronto.ca
+
+Part 1 Explanation:
+Two parts for this part: 1. dig utoronto.ca (to host default server) and 2. dig @127.0.0.1 -p 9090 utoronto.ca (to BIND server) with flags A (for IPv4), MX (for mail server) and NS (for name Server)
+However, direct lookup for utoronto.ca will not give us any information on mail servers, so use MX flag. 
+With MX flag, it still didn't show the IP address for the answer section, so we have to use (direct dig as an example) "dig utoronto-ca.mail.protection.outlook.com A" 
+to force it to return the IP address for the mail servers. 
+
+Part 2 Explanation:
+Command to start the proxy server is "python2 dnsproxy_starter.py --port 4399 --dns_port 9090" and the cmd to do the look up is "dig @0.0.0.0 -p 4399 utoronto.ca". Set the IP address for the proxy server to 0.0.0.0 to simplify the process of listening (available for all sockets over the network). In part 2, the proxy server will listen to the request from dig, forward it to the BIND server, receive response from the BIND server and send it back to dig. We implemented in a way that it can consistently listen to dig for as many times as the user wants before the user interrupts the proxy server. This part requires no scapy methods
+
+Part 3 Explanation:
+follow a similar cmd as part 2, adding --spoof_response at the end. As far as I interpret the task, we will have to intercept the socket from getting to the BIND server, i.e., we should not use sendto() to the BIND server. By forming a DNS packet for request data for testing purpose, I found some fields of the response and request packets to be the same (for more details please check the comments), therefore forging a response packet is easy to do. By request a lookup on "example.com", we found two NS, so in contructing the fake response, we have to take into account that there are two NS, so modify the NS to be "ns1.dnslabattacker.net" and "ns2.dnslabattacker.net". Additional field section is not provided in the lab handout, so during the construction of the fake response, we skipped this field construction. 
