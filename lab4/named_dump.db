@@ -1,0 +1,579 @@
+;
+; Start view _default
+;
+;
+; Cache dump of view '_default' (cache _default)
+;
+; using a 604800 second stale ttl
+$DATE 20240322214548
+; authanswer
+.			1029484	IN NS	a.root-servers.net.
+			1029484	IN NS	b.root-servers.net.
+			1029484	IN NS	c.root-servers.net.
+			1029484	IN NS	d.root-servers.net.
+			1029484	IN NS	e.root-servers.net.
+			1029484	IN NS	f.root-servers.net.
+			1029484	IN NS	g.root-servers.net.
+			1029484	IN NS	h.root-servers.net.
+			1029484	IN NS	i.root-servers.net.
+			1029484	IN NS	j.root-servers.net.
+			1029484	IN NS	k.root-servers.net.
+			1029484	IN NS	l.root-servers.net.
+			1029484	IN NS	m.root-servers.net.
+; authanswer
+			1029484	RRSIG	NS 8 0 518400 (
+					20240410170000 20240328160000 30903 .
+					XY2pZ3+Yhfv8fWzXr0ed40ZxJnUsniDzwqnt
+					UEF0jCTyfbq1lluUcBQrAv2BF/MUNm2WJw5d
+					yz9V1B8SENYM5bcnyj5LfKLqMzF9jLydFSyN
+					TghUmZuRme2cEbbR3vsR3/9bHO9oR1QDh5BR
+					KZLqvzAXGt8rX/U7YJg/gAzst9OCsEDXlfGg
+					n9GcwP5RIgBGj9vCAD3a5+PvRUf/mhHSPDd7
+					p3KONCigm3ye+02Pjd/5gC0eNCOJcMGCzBJ+
+					O+G3tnQ4S6J17Z1nex5adRL21pwUOVjDAGsZ
+					ME+w3A2/uqhSy1gVj3vda1URGZTffWWqb591
+					0MQqHNpp1x1Ay1BTkA== )
+; glue
+ca.			683896	NS	c.ca-servers.ca.
+			683896	NS	d.ca-servers.ca.
+			683896	NS	j.ca-servers.ca.
+			683896	NS	any.ca-servers.ca.
+; additional
+; stale
+			597496	DS	18560 13 2 (
+					86EC28ED5BFF076186306DC8CE3B4E3EC043
+					3D9D5D34C7CA8DAC7B1934E8B324 )
+; additional
+; stale
+			597496	RRSIG	DS 8 1 86400 (
+					20240410170000 20240328160000 30903 .
+					6VWVFkPurQTC+ntz6Onx/dsLg6DsgD/Wvthi
+					mGKLNRiEzn5fPdIAt1TQqS4lZL8b9eiVirQ+
+					yCZmD95elMek3bb8bSI3Tl7L6t3M1O38gExg
+					5SywhSJaMtgzryUisypeCHcQ98AgT2IWUti/
+					lnFycRTW4xcQFAeIt+KRwzTNIk94k2GrXoed
+					57eZR8AU1/OI/VJ/8F/mwYZ6ebomgHuDY+2G
+					jlvX366oY3pSKhvP9nFm9ZCxUzgFz+bejIdA
+					Xi38UhqkAKQBhakaFuhVufhYBZ7lTMYWFPc4
+					pNTd8EKNYj7JAyXOsFSQQggHTOq6bf+Z8Bj8
+					JX9ylve4B/4Nbni12Q== )
+; authanswer
+; stale
+any.ca-servers.ca.	597496	A	199.4.144.2
+; glue
+			683896	AAAA	2001:500:a7::2
+; glue
+c.ca-servers.ca.	683896	A	185.159.196.2
+; glue
+			683896	AAAA	2620:10a:8053::2
+; glue
+d.ca-servers.ca.	683896	A	45.142.220.101
+; glue
+			683896	AAAA	2a0e:dbc0::101
+; glue
+j.ca-servers.ca.	683896	A	198.182.167.1
+; glue
+			683896	AAAA	2001:500:83::1
+; glue
+; stale
+ns1.d-zone.ca.		597496	A	162.219.54.2
+; glue
+; stale
+			597496	AAAA	2620:10a:80eb::2
+; glue
+; stale
+ns2.d-zone.ca.		597496	A	162.219.55.2
+; authanswer
+; stale
+utoronto.ca.		597496	NS	ns1.d-zone.ca.
+			597496	NS	ns2.d-zone.ca.
+; authanswer
+; stale
+			511276	A	23.185.0.1
+; authanswer
+; stale
+			511514	MX	0 utoronto-ca.mail.protection.outlook.com.
+; authauthority
+; stale
+ecf.utoronto.ca.	597535	NS	ns2.utoronto.ca.
+			597535	NS	ns7.utoronto.ca.
+; authanswer
+; stale
+			597535	A	128.100.8.48
+; authanswer
+; stale
+ns2.utoronto.ca.	597535	A	128.100.72.168
+; authanswer
+; stale
+ns7.utoronto.ca.	597535	A	162.243.71.42
+; answer
+; stale
+utoronto.caD.		521883	\-ANY	;-$NXDOMAIN
+; . SOA a.root-servers.net. nstld.verisign-grs.com. 2024032801 1800 900 604800 86400
+; . RRSIG SOA ...
+; . RRSIG NSEC ...
+; . NSEC aaa. NS SOA RRSIG NSEC DNSKEY TYPE63
+; cab. RRSIG NSEC ...
+; cab. NSEC cafe. NS DS RRSIG NSEC
+; glue
+com.			684104	NS	a.gtld-servers.net.
+			684104	NS	b.gtld-servers.net.
+			684104	NS	c.gtld-servers.net.
+			684104	NS	d.gtld-servers.net.
+			684104	NS	e.gtld-servers.net.
+			684104	NS	f.gtld-servers.net.
+			684104	NS	g.gtld-servers.net.
+			684104	NS	h.gtld-servers.net.
+			684104	NS	i.gtld-servers.net.
+			684104	NS	j.gtld-servers.net.
+			684104	NS	k.gtld-servers.net.
+			684104	NS	l.gtld-servers.net.
+			684104	NS	m.gtld-servers.net.
+; additional
+; stale
+			597704	DS	19718 13 2 (
+					8ACBB0CD28F41250A80A491389424D341522
+					D946B0DA0C0291F2D3D771D7805A )
+; additional
+; stale
+			597704	RRSIG	DS 8 1 86400 (
+					20240410170000 20240328160000 30903 .
+					ats178yWI8VQVABG/8cWsuwCSEJkmw6Prs2K
+					ERSFKgBg6e32v9u6qFs2TAhBXwU+GJQP4vZI
+					12uFf0QwSPQV1n+mh0gHd4Qc2QRxoPTRbtWw
+					PGnTVVG0pvAbBLqqJr34FLe5/IMV6nnoinSJ
+					QnocgTpVQxyuRWKfRKk208UcEW38exDfD5VY
+					5wMOmxAz8OlTeVaX93SgP/BoJMD1rLkDsBcQ
+					DTwVedu0ni0pH7Mm1Lf9Yejlulg2Y3yPA2er
+					mWU+bH89m84rGhV95eeKlUdOLr92RIhNDRdq
+					uu4UVpFuQf9WGGPEI9JsKU/2GQZN6IUhLlee
+					mmO7yc1jDo5K4oqwsw== )
+; glue
+ns1-38.azure-dns.com.	684104	A	150.171.10.38
+; glue
+			684104	AAAA	2603:1061:0:10::26
+; glue
+o365filtering.com.	684104	NS	nso12.o365filtering.com.
+			684104	NS	nso13.o365filtering.com.
+			684104	NS	nso14.o365filtering.com.
+			684104	NS	nso21.o365filtering.com.
+			684104	NS	nso22.o365filtering.com.
+			684104	NS	nso23.o365filtering.com.
+			684104	NS	nso24.o365filtering.com.
+; authanswer
+; stale
+ns1-proddns.glbdns.o365filtering.com. 512400 A 104.47.118.145
+			512400	A	104.47.118.177
+; authanswer
+; stale
+ns2-proddns.glbdns.o365filtering.com. 512400 A 104.47.118.145
+			512400	A	104.47.118.177
+; glue
+nse12.o365filtering.com. 684104	A	104.47.38.8
+; glue
+nse13.o365filtering.com. 684104	A	104.47.2.8
+; glue
+nse21.o365filtering.com. 684104	A	104.47.40.8
+; glue
+nse24.o365filtering.com. 684104	A	104.47.44.8
+; glue
+nso12.o365filtering.com. 684104	A	104.47.38.8
+; glue
+nso13.o365filtering.com. 684104	A	104.47.2.8
+; glue
+nso14.o365filtering.com. 684104	A	104.47.124.8
+; glue
+nso21.o365filtering.com. 684104	A	104.47.40.8
+; glue
+nso22.o365filtering.com. 684104	A	104.47.44.8
+; glue
+nso23.o365filtering.com. 684104	A	104.47.4.8
+; glue
+nso24.o365filtering.com. 684104	A	104.47.121.8
+; glue
+outlook.com.		684104	NS	nse12.o365filtering.com.
+			684104	NS	nse13.o365filtering.com.
+			684104	NS	nse21.o365filtering.com.
+			684104	NS	nse24.o365filtering.com.
+			684104	NS	ns1-38.azure-dns.com.
+			684104	NS	ns2-38.azure-dns.net.
+			684104	NS	ns3-38.azure-dns.org.
+			684104	NS	ns4-38.azure-dns.info.
+; glue
+; stale
+mail.protection.outlook.com. 513104 NS	ns1-proddns.glbdns.o365filtering.com.
+			513104	NS	ns2-proddns.glbdns.o365filtering.com.
+; authanswer
+; stale
+utoronto-ca.mail.protection.outlook.com. 512380	A 52.101.190.0
+			512380	A	52.101.190.1
+			512380	A	52.101.190.2
+			512380	A	52.101.190.3
+			512380	A	52.101.192.0
+			512380	A	52.101.192.1
+; glue
+info.			684104	NS	a0.info.afilias-nst.info.
+			684104	NS	a2.info.afilias-nst.info.
+			684104	NS	b0.info.afilias-nst.org.
+			684104	NS	b2.info.afilias-nst.org.
+			684104	NS	c0.info.afilias-nst.info.
+			684104	NS	d0.info.afilias-nst.org.
+; additional
+; stale
+			597704	DS	5104 8 2 (
+					1AF7548A8D3E2950C20303757DF9390C26CF
+					A39E26C8B6A8F6C8B1E72DD8F744 )
+; additional
+; stale
+			597704	RRSIG	DS 8 1 86400 (
+					20240410170000 20240328160000 30903 .
+					GdBxUBaYFa+TnO34UMjgWT1BG1EJmN3FYj59
+					g4WTC9A6uNWYszyEMZ0YBMnNMIcM71tX0mcW
+					V6fXHYEGSrQu32C8mpaE7TE28kBfi47Sha68
+					fX/nJy0sQcI9gB3awNMflnLnaahxNsWeljLA
+					5bSARfZxruxRUK6vCMLEDI4NsrLlvGssQx6D
+					p1qOMBVIPVINlRVnUMDO8aFCmD2zEuFJq5de
+					7BRbeBrBi1/2dI1NFtHfACdKe+NRT9ayE1Yp
+					cmmAyp5qsWc18B0eouv8IFjCr8wsh8KnPj7b
+					OJzITcQHxUAC3gMwh36F26QvF8Rzoo7XvfL6
+					hZVl4vYy2Vb0zdYbgw== )
+; glue
+a0.info.afilias-nst.info. 684104 A	199.254.31.1
+; glue
+			684104	AAAA	2001:500:19::1
+; glue
+a2.info.afilias-nst.info. 684104 A	199.249.113.1
+; glue
+			684104	AAAA	2001:500:41::1
+; glue
+c0.info.afilias-nst.info. 684104 A	199.254.49.1
+; glue
+			684104	AAAA	2001:500:1b::1
+; glue
+a0.org.afilias-nst.info. 684104	A	199.19.56.1
+; glue
+			684104	AAAA	2001:500:e::1
+; glue
+a2.org.afilias-nst.info. 684104	A	199.249.112.1
+; glue
+			684104	AAAA	2001:500:40::1
+; glue
+c0.org.afilias-nst.info. 684104	A	199.19.53.1
+; glue
+			684104	AAAA	2001:500:b::1
+; glue
+; stale
+azure-dns.info.		514904	NS	ns4-01.azure-dns.info.
+			514904	NS	ns4-02.azure-dns.info.
+			514904	NS	ns4-03.azure-dns.info.
+			514904	NS	ns4-04.azure-dns.info.
+; glue
+; stale
+ns4-01.azure-dns.info.	514904	A	208.84.5.1
+; glue
+; stale
+			514904	AAAA	2620:1ec:bda:700::1
+; glue
+; stale
+ns4-02.azure-dns.info.	514904	A	208.84.5.2
+; glue
+; stale
+			514904	AAAA	2620:1ec:bda:700::2
+; glue
+; stale
+ns4-03.azure-dns.info.	514904	A	208.84.5.3
+; glue
+; stale
+			514904	AAAA	2620:1ec:bda:700::3
+; glue
+; stale
+ns4-04.azure-dns.info.	514904	A	208.84.5.4
+; glue
+; stale
+			514904	AAAA	2620:1ec:bda:700::4
+; authanswer
+; stale
+ns4-38.azure-dns.info.	514904	A	13.107.206.38
+; glue
+net.			684104	NS	a.gtld-servers.net.
+			684104	NS	b.gtld-servers.net.
+			684104	NS	c.gtld-servers.net.
+			684104	NS	d.gtld-servers.net.
+			684104	NS	e.gtld-servers.net.
+			684104	NS	f.gtld-servers.net.
+			684104	NS	g.gtld-servers.net.
+			684104	NS	h.gtld-servers.net.
+			684104	NS	i.gtld-servers.net.
+			684104	NS	j.gtld-servers.net.
+			684104	NS	k.gtld-servers.net.
+			684104	NS	l.gtld-servers.net.
+			684104	NS	m.gtld-servers.net.
+; additional
+; stale
+			597704	DS	37331 13 2 (
+					2F0BEC2D6F79DFBD1D08FD21A3AF92D0E39A
+					4B9EF1E3F4111FFF282490DA453B )
+; additional
+; stale
+			597704	RRSIG	DS 8 1 86400 (
+					20240410170000 20240328160000 30903 .
+					2niY25szw7ECqk/ac6wNxWBRmr8ahd+GXkGT
+					PgNcZz9e6B+bjLSyWD+Xa+T5EUaeIon4iVOp
+					ROq7+eDNplvUG9x8m0FH7TorwLbcUbNUxOCn
+					Vmuweyc5mos0AWkTGazdGWfdslsR90JTnL1q
+					BuncgC0AruheUK8wBiIbH0rdSu9/Hz3fR2DK
+					97aCJHzs/t5LH9mFnR5NL6zjNgb7L/wCM9EM
+					1qT4MuYOTqQ075+8AEV411I+PPAiv+a/tg5F
+					OCloRf95E90+Ax8VT7QkfmlfAX+E8CwPGCNs
+					EsjityqZp8DJGq6R6tBe7c6HVhuLzTkcHfSw
+					xzN0Mak3qQRNgZsJQw== )
+; glue
+azure-dns.net.		684104	NS	ns2-01.azure-dns.net.
+			684104	NS	ns2-02.azure-dns.net.
+			684104	NS	ns2-03.azure-dns.net.
+			684104	NS	ns2-04.azure-dns.net.
+; glue
+ns2-01.azure-dns.net.	684104	A	150.171.21.1
+; glue
+			684104	AAAA	2620:1ec:8ec:700::1
+; glue
+ns2-02.azure-dns.net.	684104	A	150.171.21.2
+; glue
+			684104	AAAA	2620:1ec:8ec:700::2
+; glue
+ns2-03.azure-dns.net.	684104	A	150.171.21.3
+; glue
+			684104	AAAA	2620:1ec:8ec:700::3
+; glue
+ns2-04.azure-dns.net.	684104	A	150.171.21.4
+; glue
+			684104	AAAA	2620:1ec:8ec:700::4
+; authanswer
+; stale
+ns2-38.azure-dns.net.	514904	A	150.171.16.38
+; glue
+a.gtld-servers.net.	684104	A	192.5.6.30
+; glue
+			684104	AAAA	2001:503:a83e::2:30
+; glue
+b.gtld-servers.net.	684104	A	192.33.14.30
+; glue
+			684104	AAAA	2001:503:231d::2:30
+; glue
+c.gtld-servers.net.	684104	A	192.26.92.30
+; glue
+			684104	AAAA	2001:503:83eb::30
+; glue
+d.gtld-servers.net.	684104	A	192.31.80.30
+; glue
+			684104	AAAA	2001:500:856e::30
+; glue
+e.gtld-servers.net.	684104	A	192.12.94.30
+; glue
+			684104	AAAA	2001:502:1ca1::30
+; glue
+f.gtld-servers.net.	684104	A	192.35.51.30
+; glue
+			684104	AAAA	2001:503:d414::30
+; glue
+g.gtld-servers.net.	684104	A	192.42.93.30
+; glue
+			684104	AAAA	2001:503:eea3::30
+; glue
+h.gtld-servers.net.	684104	A	192.54.112.30
+; glue
+			684104	AAAA	2001:502:8cc::30
+; glue
+i.gtld-servers.net.	684104	A	192.43.172.30
+; glue
+			684104	AAAA	2001:503:39c1::30
+; glue
+j.gtld-servers.net.	684104	A	192.48.79.30
+; glue
+			684104	AAAA	2001:502:7094::30
+; glue
+k.gtld-servers.net.	684104	A	192.52.178.30
+; glue
+			684104	AAAA	2001:503:d2d::30
+; glue
+l.gtld-servers.net.	684104	A	192.41.162.30
+; glue
+			684104	AAAA	2001:500:d937::30
+; glue
+m.gtld-servers.net.	684104	A	192.55.83.30
+; glue
+			684104	AAAA	2001:501:b1f9::30
+; glue
+a.root-servers.net.	1029484	A	198.41.0.4
+; glue
+			1029484	AAAA	2001:503:ba3e::2:30
+; glue
+b.root-servers.net.	1029484	A	170.247.170.2
+; glue
+			1029484	AAAA	2801:1b8:10::b
+; glue
+c.root-servers.net.	1029484	A	192.33.4.12
+; glue
+			1029484	AAAA	2001:500:2::c
+; glue
+d.root-servers.net.	1029484	A	199.7.91.13
+; glue
+			1029484	AAAA	2001:500:2d::d
+; glue
+e.root-servers.net.	1029484	A	192.203.230.10
+; glue
+			1029484	AAAA	2001:500:a8::e
+; glue
+f.root-servers.net.	1029484	A	192.5.5.241
+; glue
+			1029484	AAAA	2001:500:2f::f
+; glue
+g.root-servers.net.	1029484	A	192.112.36.4
+; glue
+			1029484	AAAA	2001:500:12::d0d
+; glue
+h.root-servers.net.	1029484	A	198.97.190.53
+; glue
+			1029484	AAAA	2001:500:1::53
+; glue
+i.root-servers.net.	1029484	A	192.36.148.17
+; glue
+			1029484	AAAA	2001:7fe::53
+; glue
+j.root-servers.net.	1029484	A	192.58.128.30
+; glue
+			1029484	AAAA	2001:503:c27::2:30
+; glue
+k.root-servers.net.	1029484	A	193.0.14.129
+; glue
+			1029484	AAAA	2001:7fd::1
+; glue
+l.root-servers.net.	1029484	A	199.7.83.42
+; glue
+			1029484	AAAA	2001:500:9f::42
+; glue
+m.root-servers.net.	1029484	A	202.12.27.33
+; glue
+			1029484	AAAA	2001:dc3::35
+; glue
+org.			684104	NS	a0.org.afilias-nst.info.
+			684104	NS	a2.org.afilias-nst.info.
+			684104	NS	b0.org.afilias-nst.org.
+			684104	NS	b2.org.afilias-nst.org.
+			684104	NS	c0.org.afilias-nst.info.
+			684104	NS	d0.org.afilias-nst.org.
+; additional
+; stale
+			597704	DS	26974 8 2 (
+					4FEDE294C53F438A158C41D39489CD78A86B
+					EB0D8A0AEAFF14745C0D16E1DE32 )
+; additional
+; stale
+			597704	RRSIG	DS 8 1 86400 (
+					20240410170000 20240328160000 30903 .
+					WP3JetiI9pBGJIIFYQXvkHi0p6TS7T/6BrAZ
+					paT7e8MQpOZasCoGmUG+WG+/mvnOuoPbj0G7
+					9xJW2dxY9xD/u+PtU6Gi5J/cQ03vTvtpB26A
+					B2V1CztiU3abHfy5pidiNYLOLmbL/mQV+OQJ
+					zXdEF9gLyurmIRtAl3jKJSJhzRiQboGdak3g
+					F6SkFGsLCe1wiVXumvfr5p/2H5YNGvQcxRDE
+					W4/QECvFZy/OC5Qw0bZz1h4pAJdl6khsgR3T
+					+a/xFH9SlXVSZYPGeKfgr8amUuZ0t+5NOugv
+					/8irFtV1HnWmKLIG3G3ROXA8uL3fEhGMLAxs
+					KEY6XshC4XaezKjdVg== )
+; glue
+b0.info.afilias-nst.org. 684104	A	199.254.48.1
+; glue
+			684104	AAAA	2001:500:1a::1
+; glue
+b2.info.afilias-nst.org. 684104	A	199.249.121.1
+; glue
+			684104	AAAA	2001:500:49::1
+; glue
+d0.info.afilias-nst.org. 684104	A	199.254.50.1
+; glue
+			684104	AAAA	2001:500:1c::1
+; glue
+b0.org.afilias-nst.org.	684104	A	199.19.54.1
+; glue
+			684104	AAAA	2001:500:c::1
+; glue
+b2.org.afilias-nst.org.	684104	A	199.249.120.1
+; glue
+			684104	AAAA	2001:500:48::1
+; glue
+d0.org.afilias-nst.org.	684104	A	199.19.57.1
+; glue
+			684104	AAAA	2001:500:f::1
+; glue
+; stale
+azure-dns.org.		514904	NS	ns3-01.azure-dns.org.
+			514904	NS	ns3-02.azure-dns.org.
+			514904	NS	ns3-03.azure-dns.org.
+			514904	NS	ns3-04.azure-dns.org.
+; glue
+; stale
+ns3-01.azure-dns.org.	514904	A	204.14.183.1
+; glue
+; stale
+			514904	AAAA	2a01:111:4000:700::1
+; glue
+; stale
+ns3-02.azure-dns.org.	514904	A	204.14.183.2
+; glue
+; stale
+			514904	AAAA	2a01:111:4000:700::2
+; glue
+; stale
+ns3-03.azure-dns.org.	514904	A	204.14.183.3
+; glue
+; stale
+			514904	AAAA	2a01:111:4000:700::3
+; glue
+; stale
+ns3-04.azure-dns.org.	514904	A	204.14.183.4
+; glue
+; stale
+			514904	AAAA	2a01:111:4000:700::4
+; authanswer
+; stale
+ns3-38.azure-dns.org.	514904	A	13.107.222.38
+;
+; Address database dump
+;
+; [edns success/4096 timeout/1432 timeout/1232 timeout/512 timeout]
+; [plain success/timeout]
+;
+;
+; Unassociated entries
+;
+;
+; Bad cache
+;
+;
+; SERVFAIL cache
+;
+;
+; Start view _bind
+;
+;
+; Cache dump of view '_bind' (cache _bind)
+;
+; using a 604800 second stale ttl
+$DATE 20240322214548
+;
+; Address database dump
+;
+; [edns success/4096 timeout/1432 timeout/1232 timeout/512 timeout]
+; [plain success/timeout]
+;
+;
+; Unassociated entries
+;
+;
+; Bad cache
+;
+;
+; SERVFAIL cache
+;
+; Dump complete
