@@ -1,4 +1,4 @@
-<RNDC port number>: 4852
-<query port>: 2200
-<NAMED port number>: 16384
+<RNDC port number>: 32457
+<query port>: 10000
+<NAMED port number>: 7070
 <PROXY port number> = 4399

